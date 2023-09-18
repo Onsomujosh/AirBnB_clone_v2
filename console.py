@@ -4,6 +4,8 @@ import cmd
 import sys
 import re
 import os
+from datetime import datetime
+import uuid
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -96,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, command):
         """ Method to exit the HBNB console"""
-        exit()
+        exit(0)
 
     def help_quit(self):
         """ Prints the help documentation for quit  """
@@ -105,7 +107,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, arg):
         """ Handles EOF to exit program """
         print()
-        exit()
+        exit(0)
 
     def help_EOF(self):
         """ Prints the help documentation for EOF """
@@ -135,13 +137,13 @@ class HBNBCommand(cmd.Cmd):
                      float_pattern,
                      int_pattern
             )
-            for parameter in params:
-                parameter_match = re.fullmatch(param_pattern, parameter)
-                if parameter_match is not None:
-                     key_name = parameter_match.group('name')
-                     str_v = parameter_match.group('t_float')
-                     float_v = parameter_match.group('t_float')
-                     int_v = parameter_match.group('t_int')
+            for param in params:
+                param_match = re.fullmatch(param_pattern, param)
+                if param_match is not None:
+                     key_name = param_match.group('name')
+                     str_v = param_match.group('t_float')
+                     float_v = param_match.group('t_float')
+                     int_v = param_match.group('t_int')
                      if float_v is not None:
                          obj_kwargs[key_name] = float(float_v)
                      if int_v is not None:
@@ -160,6 +162,8 @@ class HBNBCommand(cmd.Cmd):
             if not hasattr(obj_kwargs, 'id'):
                 obj_kwargs['id'] = str(uuid.uuid4())
             if not hasattr(obj_kwargs, 'created_at'):
+                obj_kwags['created_at'] = str(datetime.now())
+            if not hasattr(obj_kwargs, 'updated_at'):
                 obj_kwargs['updated_at'] = str(datetime.now())
             new_instance = HBNBCommand.classes[class_name](**obj_kwargs)
             new_instance.save()
@@ -202,7 +206,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage._FileStorage__objects[key])
+            print(storage.all()[key])
         except KeyError:
             print("** no instance found **")
 
@@ -253,11 +257,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)
@@ -270,7 +274,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage._FileStorage__objects.items():
+        for k, v in storage.all().items():
             if args == k.split('.')[0]:
                 count += 1
         print(count)
