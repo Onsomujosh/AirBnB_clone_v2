@@ -166,7 +166,7 @@ class HBNBCommand(cmd.Cmd):
             new_instance = HBNBCommand.classes[class_name](**obj_kwargs)
             new_instance.save()
             print(new_instance.id)
-        else
+        else:
             new_instance = HBNBCommand.classes[class_name]()
             for key, value in obj_kwargs.items():
                 if key not in ignored_attributes:
