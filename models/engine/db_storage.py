@@ -46,35 +46,35 @@ class DBStorage:
         '''return a dictionary, key and value from the current db session
         '''
         dictionary = {}
-        if clss in None:
+        if cls is None:
             for c in classes.values():
                 objcts = self.__session.query(c).all()
-                for objct in objcts:
-                    key = objct.__class__.__name__ + '.' + objct.id
-                    dictionary[key] = objct
+                for obj in objcts:
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    dictionary[key] = obj
         else:
-            objcts = self.__session.query(clss).all()
-            for objct in objcts:
-                key = objct.__class__.__name__ + '.' + objct.id
-                dictionary[key] = objct
+            obj = self.__session.query(cls).all()
+            for obj in objcts:
+                key = obj.__class__.__name__ + '.' + obj.id
+                dictionary[key] = obj
         return dictionary
 
     def new(self, objct):
-        '''objct is added to the current session in the db'''
-        if objct is not None:
+        '''obj is added to the current session in the db'''
+        if obj is not None:
             try:
-                self.__session.add(objct)
+                self.__session.add(obj)
                 self.__session.flush()
-                self.__session.refresh(objct)
+                self.__session.refresh(obj)
             except Exception as exc:
                 self.__session.rollback()
                 raise exc
 
     def save(self):
-        '''deletes the objct from the current db session if not None'''
-        if objct is not None:
-            self.__session.query(type(objct)).filter(
-                type(objct).id == objct.id).delete()
+        '''deletes the obj from the current db session if not None'''
+        if obj is not None:
+            self.__session.query(type(obj)).filter(
+                type(obj).id == obj.id).delete()
 
     def reload(self):
         '''refreshes the db'''
