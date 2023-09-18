@@ -15,7 +15,7 @@ class FileStorage:
         cls_name= cls.__name__
         dictionary = {}
         for key in self.__objects.keys():
-            if key.split('.')[0] == cls_name
+            if key.split('.')[0] == cls_name:
                 dictionary[key] = self.__objects[key]
         return dictionary
 
