@@ -35,11 +35,11 @@ class BaseModel:
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
         else:
-            for t in kwargs:
-                if t in ['created_at', 'updated_at']:
-                    setattr(self, t, datetime.datetime.fromisoformat(kwargs[t]))
-                elif t != '__class__':
-                    setattr(self, t, kwargs[t])
+            for k in kwargs:
+                if k in ['created_at', 'updated_at']:
+                    setattr(self, k, datetime.datetime.fromisoformat(kwargs[k]))
+                elif k != '__class__':
+                    setattr(self, k, kwargs[k])
             if storage_type == 'db':
                 if not hasattr(kwargs, 'id'):
                     setattr(self, 'id', str(uuid.uuid4()))
@@ -64,9 +64,9 @@ class BaseModel:
         """Convert instance into dict format"""
         dictionary = self.__dict__.copy()
         dictionary['__class__'] = self.__class__.__name__
-        for t in dictionary:
-            if isinstance(dictionary[t], datetime.datetime):
-                    dictionary[t] = dictionary[t].isoformat()
+        for k in dictionary:
+            if isinstance(dictionary[k], datetime.datetime):
+                    dictionary[k] = dictionary[k].isoformat()
         if '_sa_instance_state' in dictionary.keys():
             del(dictionary['_sa_instance_state'])
         return dictionary
