@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] == '}'\
+                    if pline[0] == '{' and pline[-1] =='}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -121,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-
+	
         elif class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
@@ -131,30 +131,30 @@ class HBNBCommand(cmd.Cmd):
         params_dict = {}
         """split the params args to key word pairs"""
         for arg in arguments:
-            params = arg.split('=')
-            if len(params) == 2:
-                key, value = params
-                key = key.replace('_', ' ')
-                """check if value is enclosed in double quotes
-                handle the double quotes and the escape character"""
-                if value.startswith('"') and value.endswith('"'):
-                    value = value[1:-1].replace('\\"', '"')
-                    """handle value types"""
-                    if '.' in value:
-                        try:
-                            value = float(value)
-                        except ValueError:
-                            pass
-                    else:
-                        try:
-                            value = int(value)
-                        except ValueError:
-                            pass
-            # Handle duplicate parameters
-            if key in params_dict:
-                print("** parameter '{}' is duplicated **".format(key))
-                return
-            params_dict[key] = value
+             params = arg.split('=')
+             if len(params) == 2:
+                 key, value = params
+                 key = key.replace('_', ' ')
+                 """check if value is enclosed in double quotes
+                 handle the double quotes and the escape character"""
+                 if value.startswith('"') and value.endswith('"'):
+                      value = value[1:-1].replace('\\"', '"')
+                      """handle value types"""
+                      if '.' in value:
+                          try:
+                                value = float(value)
+                          except ValueError:
+                                pass
+                      else:
+                          try:
+                                value = int(value)
+                          except ValueError:
+                                pass
+             # Handle duplicate parameters
+             if key in params_dict:
+                 print("** parameter '{}' is duplicated **".format(key))
+                 return
+             params_dict[key] = value
         new_instance = HBNBCommand.classes[class_name](**params_dict)
         storage.save()
         print(new_instance.id)
@@ -353,7 +353,6 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
-
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
