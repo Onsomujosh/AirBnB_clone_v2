@@ -157,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
             params_dict[key] = value
         new_instance = HBNBCommand.classes[class_name](**params_dict)
         storage.save()
-        print(new_instance.id)
+        print("(hbnb) " + new_instance.id)
         storage.save()
 
     def help_create(self):
@@ -189,7 +189,8 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage._FileStorage__objects[key])
+            obj = storage._FileStorage__objects[key]
+            print("(hbnb) " + str(obj))
         except KeyError:
             print("** no instance found **")
 
