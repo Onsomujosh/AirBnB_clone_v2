@@ -30,10 +30,17 @@ class HBNBCommand(cmd.Cmd):
              'latitude': float, 'longitude': float
             }
 
-    def preloop(self):
-        """Prints if isatty is false"""
+    def custom_print(self, text):
+        if sys.__stdin__.isatty():
+            print("(hbnb)", text)
+        else:
+            print(text)
+
+    def cmdloop(self):
+        """Modified cmdloop to control the prompt"""
         if not sys.__stdin__.isatty():
-            print('(hbnb)')
+            self.prompt = '' #no prompt for non-interactive mode
+        super().cmdloop()
 
     def precmd(self, line):
         """Reformat command line for advanced command syntax.
