@@ -16,7 +16,7 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
     from models.place import place_amenity
 
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
-           "Review": Review, "State": State, "User": User}
+            "Review": Review, "State": State, "User": User}
 
 
 class DBStorage:
@@ -38,15 +38,14 @@ class DBStorage:
                     HBNB_MYSQL_HOST,
                     HBNB_MYSQL_DB
                     ), pool_pre_ping=True)
-
-        session_maker = sessionmaker(bind=self.__engine,
-                                     expire_on_commit=False)
+        
+        session_maker = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session_maker)
 
         if HBNB_ENV == 'test':
             Base.metadata.drop_all(self.__engine)
 
-    def all(self, cls=None):
+    def all(self, clss=None):
         '''return a dictionary, key and value from the current db session
         '''
         dictionary = {}
@@ -82,7 +81,7 @@ class DBStorage:
         '''refreshes the db'''
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
+                            expire_on_commit=False)
         self.__session = scoped_session(session_factory)()
 
     def close(self):

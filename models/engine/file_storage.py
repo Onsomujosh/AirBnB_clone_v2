@@ -9,25 +9,29 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """Returns the list of objects of one type of class"""
+        """Returns a dictionary of models currently in storage"""
         if cls is None:
-            return self.__objects
-        cls_name= cls.__name__
-        dictionary = {}
-        for key in self.__objects.keys():
-            if key.split('.')[0] == cls_name:
-                dictionary[key] = self.__objects[key]
-        return dictionary
+            return list(self.__objects.values())
+        else:
+            return {key: obj for key, obj in self.__objects.items() if isinstance(obj, cls)}
+
+    def delete(self, obj=None):
+        """delete an object from __objects"""
+        if obj is None:
+            return;
+        else:
+            if obj.id in self.__objects:
+                del self.__objects[obj.id]
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        self.__objects.update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
 
     def save(self):
         """Saves storage dictionary to file"""
-        with open(self.__file_path, 'w') as f:
+        with open(FileStorage.__file_path, 'w') as f:
             temp = {}
-            temp.update(self.__objects)
+            temp.update(FileStorage.__objects)
             for key, val in temp.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
@@ -49,26 +53,10 @@ class FileStorage:
                   }
         try:
             temp = {}
-            with open(self.__file_path, 'r') as f:
+            # with open(FileStorage.__file_path, 'r') as f:
+            with open(self.__file_path, 'r', encoding="UTF-8") as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                    class_name = val.get('__class__')
-                    if class_name in classes:
-                        obj = classes[class_name](**val)
-                        self.all()[key] = obj
+                        self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
-
-        def delete(self, obj=None):
-            ''' Deletes obj from the attribute
-                __objects if it is inside
-            '''
-            if obj is None:
-                return
-            obj_key = obj.to_dict()['__class__'] + '.' + obj.id
-            if obj_key in self.__objects.keys():
-                del self.__objects[obj_key]
-
-        def close(self):
-            '''reloading in short'''
-            self.reload()
