@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import uuid
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -136,8 +137,10 @@ class HBNBCommand(cmd.Cmd):
         arguments = arguments[1:]
         """Create a dictionary for keyword pairs"""
         params_dict = {}
+        """Ensure the 'id attribute is set to a unique value"""
+        params_dict['id'] = str(uuid.uuid4())
         """split the params args to key word pairs"""
-        for arg in arguments:
+        for arg in arguments[1:]:
             params = arg.split('=')
             if len(params) == 2:
                 key, value = params
