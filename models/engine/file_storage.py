@@ -12,26 +12,23 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls is None:
             return self.__objects #Return the entire dictionary
-        else:
-            return {key: obj for key, obj in self.__objects.items() if isinstance(obj, cls)}
-
-    def delete(self, obj=None):
-        """delete an object from __objects"""
-        if obj is None:
-            return;
-        else:
-            if obj.id in self.__objects:
-                del self.__objects[obj.id]
+        cls_name =cls.__name__
+        dct = {}
+        for key in self.__objects.keys():
+            if key.split('.')[0] == cls_name:
+                dct[key] = self.__objects[key]
+        return dct
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
+        self.__objects.update(
+                {obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
         """Saves storage dictionary to file"""
-        with open(FileStorage.__file_path, 'w') as f:
+        with open(self.__file_path, 'w') as f:
             temp = {}
-            temp.update(FileStorage.__objects)
+            temp.update(self.__objects)
             for key, val in temp.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
