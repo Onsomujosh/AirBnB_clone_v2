@@ -24,7 +24,7 @@ if storage_type == 'db':
 
 
 class Place(BaseModel, Base):
-    """ A place to stay """
+    """ Places """
     __tablename__ = 'places'
     if storage_type == 'db':
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
@@ -56,38 +56,31 @@ class Place(BaseModel, Base):
 
         @property
         def reviews(self):
-            ''' returns list of review instances with place_id
-                equals to the cyrrent Place.id
-                FileStorage relationship between Place and Review
+            ''' returns list of reviews with the place id
+                relationship btwn place and review
             '''
             from models import storage
             all_revs = storage.all(Review)
-            lst = []
+            First = []
             for rev in all_revs.values():
                 if rev.place_id == self.id:
-                    lst.append(rev)
-            return lst
+                    First.append(rev)
+            return First
 
         @property
         def amenities(self):
-            ''' returns the list of Amenity instances
-                based on the attribute amenity_ids that
-                contains all Amenity.id linked to the Place
-            '''
+            ''' return list of amenities linked to a place'''
             from models import storage
-            all_amens = storage.all(Amenity)
-            lst = []
-            for amen in all_amens.values():
-                if amen.id in self.amenity_ids:
-                    lst.append(amen)
-            return lst
+            all_amenities = storage.all(Amenity)
+            First = []
+            for amenity in all_amenities.values():
+                if amenity.id in self.amenity_ids:
+                    First.append(amenity)
+            return First
 
         @amenities.setter
         def amenities(self, obj):
-            ''' method for adding an Amenity.id to the
-                attribute amenity_ids. accepts only Amenity
-                objects
-            '''
+            ''' adds amenity.id objects to amenity_ids'''
             if obj is not None:
                 if isinstance(obj, Amenity):
                     if obj.id not in self.amenity_ids:
