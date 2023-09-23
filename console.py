@@ -141,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
         """Ensure the 'id attribute is set to a unique value"""
         params_dict['id'] = str(uuid.uuid4())
         """split the params args to key word pairs"""
-        for arg in arguments[1:]:
+        for arg in arguments:
             params = arg.split('=')
             if len(params) == 2:
                 key, value = params
