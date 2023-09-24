@@ -28,5 +28,5 @@ class test_review(test_basemodel):
         """testing review text attr"""
         new = self.value()
         self.assertEqual(type(new.text), str if
-                os.getenv('HBNB_TYPE_STORAGE') != 'db' else
-                type(None))
+                         os.getenv('HBNB_TYPE_STORAGE') != 'db' else
+                         type(None))
