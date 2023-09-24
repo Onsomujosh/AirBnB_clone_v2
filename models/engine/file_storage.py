@@ -12,7 +12,7 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls is None:
             return self.__objects  # Return the entire dictionary
-        cls_name =cls.__name__
+        cls_name = cls.__name__
         dct = {}
         for key in self.__objects.keys():
             if key.split('.')[0] == cls_name:
