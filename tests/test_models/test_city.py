@@ -18,12 +18,12 @@ class test_City(test_basemodel):
         """state_id type test """
         new = self.value()
         self.assertEqual(type(new.state_id), str if
-                os.getenv('HBNB_TYPE_STORAGE') != 'db' else
-                type(None))
+                         os.getenv('HBNB_TYPE_STORAGE') != 'db' else
+                         type(None))
 
     def test_name(self):
         """name type testing """
         new = self.value()
         self.assertEqual(type(new.name), str if
-                os.getenv('HBNB_TYPE_STORAGE') != 'db' else
-                type(None))
+                         os.getenv('HBNB_TYPE_STORAGE') != 'db' else
+                         type(None))
