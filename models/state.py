@@ -18,13 +18,3 @@ class State(BaseModel, Base):
         def cities(self):
             from models.city import City
             return [city for city in City.all() if city.state_id == self.id]
-
-def cities(self, storage=None):
-    """Returns the list of City objects linked to the current State."""
-    city_list = []
-    if storage is not None:
-        all_cities = storage.all(City)
-        for city in all_cities.values():
-            if city.state_id == self.id:
-                city_list.append(city)
-    return city_list
