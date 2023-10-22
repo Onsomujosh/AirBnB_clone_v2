@@ -20,8 +20,8 @@ class City(BaseModel, Base):
         name = ''
         state_id = ''
 
-    @classmethod
+    """@classmethod
     def all(cls):
         """Retrieve all instances of the City class from the database."""
         cities = storage.all(cls)
-        return cities
+        return cities"""
