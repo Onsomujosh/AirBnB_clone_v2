@@ -35,24 +35,6 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
         else:
-            """if 'id' in kwargs and kwargs['id'] is not None:
-                self.id = kwargs['id']
-            else:
-                self.id = str(uuid.uuid4())
-
-            if 'created_at' in kwargs and kwargs['created_at'] is not None:
-                self.created_at = datetime.fromisoformat(kwargs['created_at'])
-            else:
-                self.created_at = datetime.now()
-
-            if 'updated_at' in kwargs and kwargs['updated_at'] is not None:
-                self.updated_at = datetime.fromisoformat(kwargs['updated_at'])
-            else:
-                self.updated_at = datetime.now()
-
-            if storage_type == 'db':
-                if not hasattr(self, 'id'):
-                    setattr(self, 'id', str(uuid.uuid4()))"""
             for t in kwargs:
                 if t in ['created_at', 'updated_at']:
                     setattr(self, t, datetime.fromisoformat(kwargs[t]))
