@@ -5,7 +5,6 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DATETIME
 from models import storage_type
-from models import storage
 
 Base = declarative_base()
 
@@ -52,8 +51,12 @@ class BaseModel:
                 self.updated_at = datetime.now()
 
             if storage_type == 'db':
-                if not hasattr(self, 'id'):
+                if not hasattr(kwargs, 'id'):
                     setattr(self, 'id', str(uuid.uuid4()))
+                if not hasattr(kwargs, 'created_at'):
+                    setattr(self, 'created_at', datetime.now())
+                if not hasattr(kwargs, 'updated_at'):
+                    setattr(self, 'updated_at', datetime.now())
 
             """for t in kwargs:
                 if t in ['created_at', 'updated_at']:
