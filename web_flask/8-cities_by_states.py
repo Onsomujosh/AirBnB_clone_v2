@@ -9,15 +9,21 @@ app = Flask(__name__)
 
 
 @app.route('/cities_by_states', strict_slashes=False)
-def cities():
+def cities_by_states():
     """returns html template at /cities_by_states route,
     listing cities by state."""
-    return render_template('8-cities_by_states.html',
-                           states=storage.all('State').values())
+    states = storage.all(State).values()
+    cities = list()
+
+    for state in states:
+        for city in state.cities:
+            cities.append(city)
+    return render_template('8-cities_by_states.html', states=states,
+                            state_cities=cities)
 
 
 @app.teardown_appcontext
-def teardown(self):
+def teardown(exc):
     """Removes the current SQLAlchemy Session"""
     storage.close()
 
