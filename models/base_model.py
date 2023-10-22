@@ -35,7 +35,25 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
         else:
-            for t in kwargs:
+            if 'id' in kwargs and kwargs['id'] is not None:
+                self.id = kwargs['id']
+            else:
+                self.id = str(uuid.uuid4())
+
+            if 'created_at' in kwargs and kwargs['created_at'] is not None:
+                self.created_at = datetime.fromisoformat(kwargs['created_at'])
+            else:
+                self.created_at = datetime.now()
+
+            if 'updated_at' in kwargs and kwargs['updated_at'] is not None:
+                self.updated_at = datetime.fromisoformat(kwargs['updated_at'])
+            else:
+                self.updated_at = datetime.now()
+
+            if storage_type == 'db':
+                if not hasattr(self, 'id'):
+                    setattr(self, 'id', str(uuid.uuid4()))
+            """for t in kwargs:
                 if t in ['created_at', 'updated_at']:
                     setattr(self, t, datetime.fromisoformat(kwargs[t]))
                 elif t != '__class__':
@@ -46,7 +64,7 @@ class BaseModel:
                 if not hasattr(kwargs, 'created_at'):
                     setattr(self, 'created_at', datetime.now())
                 if not hasattr(kwargs, 'updated_at'):
-                    setattr(self, 'updated_at', datetime.now())
+                    setattr(self, 'updated_at', datetime.now())"""
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -63,7 +81,9 @@ class BaseModel:
     def to_dict(self):
         """Convert instance into dict format"""
         dictionary = self.__dict__.copy()
-        dictionary['__class__'] = self.__class__.__name__
+        class_name = self.__class__.__name__
+        print(f"Class name: {class_name}")
+        dictionary['__class__'] = class_name
         for t in dictionary:
             if isinstance(dictionary[t], datetime):
                 dictionary[t] = dictionary[t].isoformat()
