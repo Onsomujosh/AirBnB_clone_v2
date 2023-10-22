@@ -2,6 +2,7 @@
 """ Script that runs a Flask app """
 from flask import Flask, render_template
 from models import storage
+from models.state import State
 from models.amenity import Amenity
 app = Flask(__name__)
 
@@ -15,8 +16,8 @@ def closing(error):
 @app.route('/hbnb_filters', strict_slashes=False)
 def hbnb_filters():
     """ function that renders airbnb template"""
-    state = storage.all('State')
-    amenities = storage.all('Amenity')
+    state = storage.all(State)
+    amenities = storage.all(Amenity)
     return render_template('10-hbnb_filters.html', state=state,
                            amenities=amenities)
 
