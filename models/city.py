@@ -17,9 +17,9 @@ class City(BaseModel, Base):
 
         @classmethod
         def all(cls):
-            """REtrieve all city instances"""
+            """Retrieve all city instances"""
             from models import storage
-            return [city for city in stirage.all(City).values()]
+            return [city for city in storage.all(City).values()]
 
     else:
         name = ''
