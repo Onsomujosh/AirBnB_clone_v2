@@ -15,6 +15,12 @@ class City(BaseModel, Base):
         places = relationship('Place', backref='cities',
                               cascade='all, delete, delete-orphan')
 
+        @classmethod
+        def all(cls):
+            """REtrieve all city instances"""
+            from models import storage
+            return [city for city in stirage.all(City).values()]
+
     else:
         name = ''
         state_id = ''
