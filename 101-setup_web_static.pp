@@ -57,7 +57,14 @@ file { '/data/web_static/shared':
 
 file { '/data/web_static/releases/test/index.html':
   ensure  => 'present',
-  content => "This is a test HTML file.\n",
+  content => '<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body>
+</html>
+',
   owner   => 'ubuntu',
   group   => 'ubuntu',
 }
