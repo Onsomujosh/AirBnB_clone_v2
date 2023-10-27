@@ -22,3 +22,6 @@ def do_clean(number=0):
 
     with cd("/data/web_static/releases"):
         run("ls -t | tail -n +{} | xargs rm -rf".format(number + 1))
+
+    with cd("/data/web_static/current"):
+        run("ls -t | tail -n +{} | xargs rm -f".format(number + 1))
