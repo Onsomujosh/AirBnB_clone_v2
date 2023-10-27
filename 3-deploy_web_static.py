@@ -5,6 +5,7 @@ from datetime import datetime
 
 env.hosts = ['100.25.166.183', '100.25.146.150']
 
+
 def do_pack():
     """
     Generates a tgz archive of the web_static directory
