@@ -70,8 +70,10 @@ file { '/data/web_static/releases/test/index.html':
 }
 
 file { '/data/web_static/current':
-  ensure  => 'link',
+  ensure => 'link',
   target => '/data/web_static/releases/test',
+  owner  => 'ubuntu',
+  group  => 'ubuntu',
 }
 
 file { '/var/www':
